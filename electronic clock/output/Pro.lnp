@@ -1,0 +1,9 @@
+"..\output\STARTUP.obj",
+"..\output\main.obj",
+"..\output\ds1302.obj",
+"..\output\onewire.obj",
+"..\output\common.obj",
+"..\output\key.obj",
+"..\output\smg.obj" 
+TO "..\output\Pro" 
+PRINT(".\Pro.m51") RAMSIZE(256) 

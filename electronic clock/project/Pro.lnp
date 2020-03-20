@@ -1,0 +1,7 @@
+"STARTUP.obj",
+".\main.obj",
+".\common.obj",
+".\key.obj",
+".\smg.obj" 
+TO "Pro" 
+RAMSIZE(256) 

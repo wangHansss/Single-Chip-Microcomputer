@@ -1,0 +1,170 @@
+C51 COMPILER V9.01   KEY                                                                   03/18/2020 17:36:28 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN ..\output\key.obj
+COMPILER INVOKED BY: D:\C406\keil\C51\BIN\C51.EXE ..\src\key.c BROWSE DEBUG OBJECTEXTEND PRINT(.\key.lst) OBJECT(..\outp
+                    -ut\key.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          
+   3          sbit S7 = P3^0;
+   4          sbit S6 = P3^1;
+   5          sbit S5 = P3^2;
+   6          sbit S4 = P3^3;
+   7          
+   8          void key_scan(){
+   9   1              if(S7 == 0){
+  10   2                      if(S7 == 0){
+  11   3                              if(clock_flag==1)
+  12   3                                      clock_flag=0;           
+  13   3                              station_adj++;
+  14   3                              if(dsp_flag!=1){
+  15   4                                      dsp_flag = 1;
+  16   4                                      station_adj=0;
+  17   4                              }
+  18   3                              if(station_adj==4){
+  19   4                                      station_adj = 0;        
+  20   4                              }
+  21   3                              while(!S7);
+  22   3                              if(station_adj!=0){
+  23   4                                      ds1302_enable = 0;
+  24   4                              }else{
+  25   4                                      Write_Ds1302_Byte(0x8e,0x00);
+  26   4                                      Write_Ds1302_Byte(0x84,BCD_DEC(1,h));
+  27   4                                      Write_Ds1302_Byte(0x82,BCD_DEC(1,m));
+  28   4                                      Write_Ds1302_Byte(0x80,BCD_DEC(1,s));
+  29   4                                      Write_Ds1302_Byte(0x8e,0x80);
+  30   4                                      ds1302_enable = 1;
+  31   4                              }
+  32   3                      }
+  33   2              }
+  34   1      
+  35   1              if(S6==0){
+  36   2                      if(S6==0){
+  37   3                              if(clock_flag==1)
+  38   3                                      clock_flag=0;   
+  39   3                              station_adj++;
+  40   3                              if(dsp_flag!=2){
+  41   4                                      dsp_flag = 2;
+  42   4                                      station_adj=0;
+  43   4                              }
+  44   3                              if(station_adj==4){
+  45   4                                      station_adj = 0;        
+  46   4                              }
+  47   3                              while(!S6);
+  48   3                      }
+  49   2              }
+  50   1      
+  51   1              if(S5==0){
+  52   2                      if(S5==0){
+  53   3                              if(clock_flag==1)
+  54   3                                      clock_flag=0;
+C51 COMPILER V9.01   KEY                                                                   03/18/2020 17:36:28 PAGE 2   
+
+  55   3                              if(dsp_flag==1){
+  56   4                                      if(station_adj==1){
+  57   5                                              h++;
+  58   5                                              if(h==24){
+  59   6                                                      h = 0;
+  60   6                                              }
+  61   5                                      }else if(station_adj==2){
+  62   5                                              m++;
+  63   5                                              if(m==60){
+  64   6                                                      m = 0;
+  65   6                                              }
+  66   5                                      }else if(station_adj==3){
+  67   5                                              s++;
+  68   5                                              if(s==60)
+  69   5                                                      s = 0;
+  70   5                                      }
+  71   4                                      while(!S5);
+  72   4                              }else if(dsp_flag==2){
+  73   4                                      if(station_adj==1){
+  74   5                                              ch++;
+  75   5                                              if(ch==24){
+  76   6                                                      ch = 0;
+  77   6                                              }
+  78   5                                      }else if(station_adj==2){
+  79   5                                              cm++;
+  80   5                                              if(cm==60){
+  81   6                                                      cm = 0;
+  82   6                                              }
+  83   5                                      }else if(station_adj==3){
+  84   5                                              cs++;
+  85   5                                              if(cs==60)
+  86   5                                                      cs = 0;
+  87   5                                      }
+  88   4                                      while(!S5);
+  89   4                              }
+  90   3                      }
+  91   2              }
+  92   1      
+  93   1              if(S4==0){
+  94   2                      if(S4==0){
+  95   3                              if(dsp_flag==1&&station_adj==0){
+  96   4                                      dsp_flag = 3;
+  97   4      
+  98   4                              }
+  99   3      
+ 100   3      
+ 101   3                              if(clock_flag==1)
+ 102   3                                      clock_flag=0;
+ 103   3                              if(dsp_flag==1){
+ 104   4                                      if(station_adj==1){
+ 105   5                                              h--;
+ 106   5                                              if(h<0)
+ 107   5                                                      h = 23;
+ 108   5                                      }else if(station_adj==2){
+ 109   5                                              m--;
+ 110   5                                              if(m<0)
+ 111   5                                                      m = 59;
+ 112   5                                      }else if(station_adj==3){
+ 113   5                                              s--;
+ 114   5                                              if(s<0)
+ 115   5                                                      s = 59;
+ 116   5                                      }
+C51 COMPILER V9.01   KEY                                                                   03/18/2020 17:36:28 PAGE 3   
+
+ 117   4                              
+ 118   4                                      
+ 119   4                              }else if(dsp_flag==2){
+ 120   4                                       if(station_adj==1){
+ 121   5                                              ch--;
+ 122   5                                              if(ch<0)
+ 123   5                                                      ch = 23;
+ 124   5                                      }else if(station_adj==2){
+ 125   5                                              cm--;
+ 126   5                                              if(cm<0)
+ 127   5                                                      cm = 59;
+ 128   5                                      }else if(station_adj==3){
+ 129   5                                              cs--;
+ 130   5                                              if(cs<0)
+ 131   5                                                      cs = 59;
+ 132   5                                      }
+ 133   4                              
+ 134   4              
+ 135   4                              }       
+ 136   3                              while(!S4);
+ 137   3                              if(dsp_flag == 3){
+ 138   4                                 dsp_flag = 1;
+ 139   4                              }                       
+ 140   3                      }       
+ 141   2              }
+ 142   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    563    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
